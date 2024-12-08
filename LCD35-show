@@ -1,10 +1,5 @@
 #!/bin/bash
 
-sudo systemctl disable glamor-test.service
-sudo cat /usr/share/X11/xorg.conf.d/20-noglamor.conf | sed -e '/EndSection/i Driver "fbdev"' > /usr/share/X11/xorg.conf.d/21-noglamor.conf
-sudo rm /usr/share/X11/xorg.conf.d/20-noglamor.conf
-sudo systemctl restart lightdm
-
 sudo ./system_backup.sh
 
 if [ -f /etc/X11/xorg.conf.d/40-libinput.conf ]; then
@@ -143,6 +138,11 @@ sudo ./rotate.sh $1
 elif [ $# -gt 1 ]; then
 echo "Too many parameters"
 fi
+
+sudo systemctl disable glamor-test.service
+sudo cat /usr/share/X11/xorg.conf.d/20-noglamor.conf | sed -e '/EndSection/i Driver "fbdev"' > /usr/share/X11/xorg.conf.d/21-noglamor.conf
+sudo rm /usr/share/X11/xorg.conf.d/20-noglamor.conf
+sudo systemctl restart lightdm
 
 echo "reboot now"
 sudo reboot
